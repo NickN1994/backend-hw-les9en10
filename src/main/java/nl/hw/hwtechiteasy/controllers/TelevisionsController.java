@@ -1,9 +1,6 @@
 package nl.hw.hwtechiteasy.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -29,13 +26,21 @@ public class TelevisionsController {
     }
 
     @GetMapping("/showtvlist")
-    public String tvlist(@RequestParam String tv) {
+    public ArrayList<String> tvlist(@RequestParam String tv) {
         if (this.tvlist == null || this.tvlist.isEmpty()) {
             return "No list found";
         } else {
             return tvlist;
         }
 
+
+        @PutMapping("/changetvlist")
+        public ArrayList<String> tvlist(@RequestParam String tv) {
+
+        }
     }
+
 }
+
+
 
