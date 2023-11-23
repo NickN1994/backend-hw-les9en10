@@ -1,5 +1,8 @@
 package nl.hw.hwtechiteasy.controllers;
 
+import nl.hw.hwtechiteasy.exceptions.NameNotApprovedException;
+import nl.hw.hwtechiteasy.exceptions.RecordNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,37 +13,47 @@ public class TelevisionsController {
     private ArrayList<String> tvlist = new ArrayList<>();
 
     @PostMapping("/addtv")
-    public void addTV(@RequestParam String tv) {
-        this.tvlist.add(tv);
+    public ResponseEntity<Object> addTV(@RequestBody String tv) {
+        if (tv.length() > 20) {
+            throw new NameNotApprovedException("tv naam is groter dan 20 karakters");
+        } else if (tv.length() < 4) {
+            throw new NameNotApprovedException("tv naam is kleiner dan 4 karakters");
+
+        } else {
+
+            this.tvlist.add(tv);
+
+        return ResponseEntity.created(null).body(tv + " tv is toegevoegd");
+    }
+
+    }
+
+    @GetMapping("/showtv/{id}")
+    public ResponseEntity<Object> tv(@PathVariable("id") int id) {
+        if (id < 10) {
+            return ResponseEntity.ok(id + "Dit is een tv");
+        } else {
+            throw new RecordNotFoundException("Getal is hoger dan 10");
+        }
 
     }
 
     @GetMapping("/showtv")
-    public String tv() {
-        if (this.tvlist == null || this.tvlist.isEmpty()) {
-            return "no tv found";
-        } else {
-            return tvlist;
-        }
+    public ResponseEntity<Object> showTvList() {
+        return ResponseEntity.ok("Dit is een lijst met tv's");
 
     }
 
-    @GetMapping("/showtvlist")
-    public ArrayList<String> tvlist(@RequestParam String tv) {
-        if (this.tvlist == null || this.tvlist.isEmpty()) {
-            return "No list found";
-        } else {
-            return tvlist;
-        }
+    @PutMapping("/changetvlist/{id}")
+    public ResponseEntity<Object> tvlist(@PathVariable ("id") int id, @RequestBody String name) {
+        return ResponseEntity.noContent().build();
 
-
-        @PutMapping("/changetvlist")
-        public ArrayList<String> tvlist(@RequestParam String tv) {
-
-        }
     }
 
+    @DeleteMapping ("/deletetv/{id}")
+    public ResponseEntity<Object> deleteTv (@PathVariable ("id") int id) {
+        return ResponseEntity.noContent().build();
+    }
 }
-
 
 
