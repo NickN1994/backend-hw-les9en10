@@ -2,9 +2,6 @@ package nl.hw.hwtechiteasy.controllers;
 
 import nl.hw.hwtechiteasy.Model.Television;
 import nl.hw.hwtechiteasy.Repository.TelevisionRepository;
-import nl.hw.hwtechiteasy.exceptions.NameNotApprovedException;
-import nl.hw.hwtechiteasy.exceptions.RecordNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +23,7 @@ public class TelevisionsController {
 
     @PostMapping("/addtv")
     public ResponseEntity<Television> addTV(@RequestBody Television television) {
-//        if (tv.length() > 20) {
-//            throw new NameNotApprovedException("tv naam is groter dan 20 karakters");
-//        } else if (tv.length() < 4) {
-//            throw new NameNotApprovedException("tv naam is kleiner dan 4 karakters");
-//
-//        } else {
-//
-//            this.tvlist.add(tv);
+
 
         Television savedTelevision = televisionRepository.save(television);
 
@@ -50,15 +40,13 @@ public class TelevisionsController {
         return ResponseEntity.ok(savedTelevision.get());
 
 
-//        } else {
-//            throw new RecordNotFoundException("Getal is hoger dan 10");
+
     }
 
-//    }
 
-    @GetMapping("/showtv")
-    public ResponseEntity<Object> showTvList() {
-        return ResponseEntity.ok("Dit is een lijst met tv's");
+    @GetMapping("/showtvlist")
+    public ResponseEntity<String> showTvList() {
+        return ResponseEntity.ok(televisionRepository.findAll().toString());
 
     }
 
