@@ -14,6 +14,7 @@ public class TelevisionsController {
 
     private final TelevisionRepository televisionRepository;
 
+    // ter vervangen van autowired
     public TelevisionsController(TelevisionRepository televisionRepository) {
         this.televisionRepository = televisionRepository;
 
@@ -39,10 +40,7 @@ public class TelevisionsController {
         Optional<Television> savedTelevision = televisionRepository.findById(id);
         return ResponseEntity.ok(savedTelevision.get());
 
-
-
     }
-
 
     @GetMapping("/showtvlist")
     public ResponseEntity<String> showTvList() {
